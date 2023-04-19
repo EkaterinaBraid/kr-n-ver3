@@ -1,0 +1,131 @@
+ <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Крестики и нолики</title>
+</head>
+<body>
+ <style>
+      #navbar {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        border: 2px solid #FFFFFF;
+        border-radius: 30px 10px;
+        width: 600 px;
+        text-align: center;
+        background-color: #DCDCDC;
+      }
+      #navbar li { display: inline; }
+      #navbar a {
+        color: #000000;
+        padding: 5px 10px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        width: 100px;
+      }
+      #navbar a:hover {
+        border-radius: 20px 5px;
+        background-color: #7FFFD4;
+      }
+    </style>
+  </head>
+ 
+  <body>
+  
+    <ul id="navbar">
+	  <li><a href="playing field.html">Игровое поле</a></li>
+      <li><a href="rating.html">Рейтинг</a></li>
+      <li><a href="activeplayers.html">Активные игроки</a></li>
+      <li><a href="gamehistory.html">История игр</a></li>
+	   <li><a href="exit.html">Выход</a></li>
+    </ul>
+ <div class="container">
+        <div class="col-sm-6" style="border: 1px solid gray;">
+        <h2>Заполнение списка игроков</h2>
+        <form action="#">
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" class="form-control" id="name" placeholder="Заполнить имя" name="name">
+              </div>
+
+          <div class="form-group">
+            <label for="email">Почта:</label>
+            <input type="email" class="form-control" id="email" placeholder="Заполнить email" name="email">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Пароль:</label>
+            <input type="password" class="form-control" id="psw" placeholder="Заполнить пароль" name="pwd">
+          </div>
+         
+          <button type="button" onclick="saveData()" id="save_btn" class="btn btn-default">Заполнить</button>
+        </form>
+      </div>
+      <div class="col-sm-6" style="border: 1px solid gray;">
+        <h2 style="text-align: center;">Список Игроков</h2>
+        <div class="row">
+          <div class="col-sm-4" style="background-color: #ffdc5c;padding: 10px;">Имя</div>
+          <div class="col-sm-4" style="background-color: #38b7ff;padding: 10px;">Почта</div>
+          <div class="col-sm-4" style="background-color: #ff914d;padding: 10px;">Пароль</div>
+
+        </div>
+        <div id="showUsers"></div>
+      </div>
+      </div>
+      
+      </body>
+      <script>
+        showData();
+function saveData()
+{
+let name,email,psw;
+name=document.getElementById("name").value;
+email=document.getElementById("email").value;
+
+psw=document.getElementById("psw").value;
+
+let user_records=new Array();
+user_records=JSON.parse(localStorage.getItem("users"))?JSON.parse(localStorage.getItem("users")):[]
+if(user_records.some((v)=>{return v.email==email}))
+{
+  alert("duplicate data");
+}
+else
+{
+  user_records.push({
+  "name":name,
+  "email":email,
+  "psw":psw
+})
+localStorage.setItem("users",JSON.stringify(user_records));
+}
+showData();
+}
+
+function showData()
+{
+  document.getElementById("showUsers").innerHTML="";
+  let user_records=new Array();
+user_records=JSON.parse(localStorage.getItem("users"))?JSON.parse(localStorage.getItem("users")):[]
+  if(user_records)
+  {
+    for(let i=0;i<user_records.length;i++)
+    {
+      let addDiv=document.createElement('div');
+  addDiv.className="row";
+  addDiv.innerHTML='  <div class="col-sm-4" style="padding: 10px;">'+user_records[i].name+'</div><div class="col-sm-4" style="padding: 10px;">'+user_records[i].email+'</div><div class="col-sm-4" style="padding: 10px;">'+user_records[i].psw+'</div>';
+  document.getElementById("showUsers").appendChild(addDiv);
+
+    }
+  }
+  }
+          </script>
+
+</html>
